@@ -9,6 +9,7 @@ import webapp2.demo2.model.Hero;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -30,14 +31,16 @@ public class HeroCreatorController {
     @GetMapping(value = "/random-name", produces = "application/json")
     public String getRandomName() {
         String url = "https://random-word-api.herokuapp.com/word";
-        String response = restTemplate.getForObject(url, String.class);
-        return response.toString().replace('[', ' ').replace(']', ' ').trim();
+        Object response = restTemplate.getForObject(url, Object.class);
+        String randomName = response.toString().replace('[', ' ').replace(']', ' ').trim();
+        return randomName.substring(0,1).toUpperCase() + randomName.substring(1);
     }
 
     @GetMapping(value = "/random-hero", produces = "application/json")
-    public LinkedHashMap getRandomHero() {
-        int rid = 0 + (int) (Math.random() * ((3 - 0) + 0));
-        return getHeroes().get(rid);
+    public Object getRandomHero() {
+        List randomList = getHeroes();
+        Collections.shuffle(randomList);
+        return randomList.get(0);
     }
 
     public int getMaxID() {
@@ -49,9 +52,21 @@ public class HeroCreatorController {
         return key;
     }
 
+    public String getRadomClass(){
+        ArrayList<String> classes = new ArrayList();
+        classes.add("Warrior");
+        classes.add("Wizard");
+        Collections.shuffle(classes);
+        return classes.get(0);
+    }
+
+    public int getRandomLife(){
+        return 0 + (int)(Math.random() * ((10 - 0) + 1));
+    }
+
     @PostMapping("/random")
     public Object createHero() {
-        Hero newHero = new Hero(getMaxID() + 1, getRandomName(), "wizard", 10);
+        Hero newHero = new Hero(getMaxID() + 1, getRandomName(), getRadomClass(), getRandomLife());
         URI response = restTemplate.postForLocation("http://localhost:8080/heroes", newHero);
         return getHeroes();
     }
