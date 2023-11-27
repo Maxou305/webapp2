@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import webapp2.demo2.model.Hero;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -51,8 +52,7 @@ public class HeroCreatorController {
     @PostMapping("/random")
     public Object createHero() {
         Hero newHero = new Hero(getMaxID() + 1, getRandomName(), "wizard", 10);
-        String url = "http://localhost:8080/heroes";
-        Hero response = restTemplate.postForObject(url, newHero, Hero.class);
-        return response;
+        URI response = restTemplate.postForLocation("http://localhost:8080/heroes", newHero);
+        return getHeroes();
     }
 }
