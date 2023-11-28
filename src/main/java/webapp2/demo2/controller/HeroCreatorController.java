@@ -61,7 +61,7 @@ public class HeroCreatorController {
     }
 
     public int getRandomLife(){
-        return 0 + (int)(Math.random() * ((10 - 0) + 1));
+        return 3 + (int)(Math.random() * ((10 - 3) + 1));
     }
 
     @PostMapping("/random")
