@@ -65,9 +65,9 @@ public class HeroCreatorController {
     }
 
     @PostMapping("/random")
-    public Object createHero() {
+    public Hero createHero() {
         Hero newHero = new Hero(getMaxID() + 1, getRandomName(), getRadomClass(), getRandomLife());
-        URI response = restTemplate.postForLocation("http://localhost:8080/heroes", newHero);
-        return getHeroes();
+        Hero response = restTemplate.postForObject("http://localhost:8080/heroes", newHero, Hero.class);
+        return response;
     }
 }
