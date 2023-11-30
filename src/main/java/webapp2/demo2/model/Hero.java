@@ -21,18 +21,14 @@ public class Hero {
     public Hero() {
     }
 
-    /**
-     * Constructeur complet de Hero à 4 paramètres.
-     * @param id id du personnage (int)
-     * @param name nom du personnage (String)
-     * @param type type du personnage (String)
-     * @param life niveau de vie du personnage (int)
-     */
-    public Hero(int id, String name, String type, int life) {
-        this.id = id;
+    public Hero(String name, String type, int life){
         this.name = name;
         this.type = type;
         this.life = life;
+    }
+    public Hero(String name, String type, int life, int id){
+        this(name, type, life);
+        this.id = id;
     }
 
     public int getId() {
